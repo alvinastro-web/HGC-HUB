@@ -1,0 +1,2393 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>HGC — Human Great Community</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0
+}
+
+html,body{
+  width:100%;
+  height:100%;
+  overflow:hidden
+}
+
+body{
+  font-family:Arial,sans-serif;
+  background:#000;
+  color:#fff
+}
+
+/* ================= BACKGROUND ================= */
+
+body:before{
+  content:"";
+  position:fixed;
+  width:460px;
+  height:460px;
+  left:50%;
+  top:43%;
+  transform:translate(-50%,-50%);
+  border-radius:50%;
+  background:
+    radial-gradient(circle,
+      #000 0 27%,
+      #111 28% 34%,
+      #191919 35% 40%,
+      #050505 50%,
+      transparent 70%);
+  box-shadow:0 0 100px rgba(255,255,255,.04);
+  animation:hole 14s linear infinite;
+  z-index:-3
+}
+
+body:after{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(circle at 20% 20%,
+      rgba(255,255,255,.035),transparent 25%),
+    radial-gradient(circle at 80% 80%,
+      rgba(255,255,255,.025),transparent 30%);
+  z-index:-2;
+  pointer-events:none
+}
+
+@keyframes hole{
+  to{filter:hue-rotate(360deg)}
+}
+
+/* ================= LOADER ================= */
+
+#loader{
+  position:fixed;
+  inset:0;
+  background:#000;
+  z-index:9999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:opacity 1s,visibility 1s,filter 1s
+}
+
+#loader.hide{
+  opacity:0;
+  visibility:hidden;
+  filter:blur(18px)
+}
+
+.login-box{
+  text-align:center;
+  width:min(86%,360px)
+}
+
+.logo{
+  font-size:68px;
+  font-weight:900;
+  letter-spacing:12px;
+  opacity:0;
+  animation:loginLogo 1.5s .2s forwards
+}
+
+@keyframes loginLogo{
+  0%{
+    opacity:0;
+    transform:scale(.75);
+    filter:blur(15px)
+  }
+  60%{
+    opacity:1;
+    filter:blur(0)
+  }
+  100%{
+    opacity:1;
+    transform:scale(1)
+  }
+}
+
+.orbit{
+  width:48px;
+  height:48px;
+  border:1px solid #333;
+  border-top-color:#fff;
+  border-radius:50%;
+  margin:25px auto;
+  animation:spin 1s linear infinite
+}
+
+.orbit:after{
+  content:"";
+  display:block;
+  width:6px;
+  height:6px;
+  background:#fff;
+  border-radius:50%;
+  margin:2px auto;
+  box-shadow:0 0 12px #fff
+}
+
+@keyframes spin{
+  to{transform:rotate(360deg)}
+}
+
+.login-text{
+  font-size:11px;
+  letter-spacing:4px;
+  color:#aaa;
+  opacity:0;
+  animation:fade .8s 1s forwards
+}
+
+@keyframes fade{
+  to{opacity:1}
+}
+
+.progress{
+  height:2px;
+  background:#222;
+  margin-top:18px;
+  overflow:hidden
+}
+
+.progress-bar{
+  height:100%;
+  width:0;
+  background:#fff
+}
+
+.status{
+  font-size:9px;
+  color:#555;
+  letter-spacing:2px;
+  margin-top:10px
+}
+
+/* ================= APP ================= */
+
+#app{
+  height:100%;
+  opacity:0;
+  visibility:hidden;
+  transition:opacity .8s
+}
+
+#app.ready{
+  opacity:1;
+  visibility:visible
+}
+
+.content{
+  height:100%;
+  overflow-y:auto;
+  padding-bottom:105px;
+  scrollbar-width:none
+}
+
+.content::-webkit-scrollbar{
+  display:none
+}
+
+.page{
+  width:min(600px,100%);
+  margin:auto;
+  padding:22px 18px 35px
+}
+
+.pageview{
+  display:none
+}
+
+.pageview.active{
+  display:block;
+  animation:pageFade .45s ease
+}
+
+@keyframes pageFade{
+  from{
+    opacity:0;
+    transform:translateY(8px)
+  }
+  to{
+    opacity:1;
+    transform:translateY(0)
+  }
+}
+
+/* ================= TOP ================= */
+
+.top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:32px;
+  position:relative
+}
+
+.brand{
+  font-size:20px;
+  font-weight:900;
+  letter-spacing:4px
+}
+
+.menu{
+  width:39px;
+  height:39px;
+  border-radius:11px;
+  border:1px solid #292929;
+  background:#0d0d0d;
+  color:#fff;
+  font-size:19px;
+  cursor:pointer
+}
+
+/* ================= REVEAL ================= */
+
+.type-item{
+  opacity:0
+}
+
+.type-item.show{
+  animation:typeReveal .6s ease forwards
+}
+
+@keyframes typeReveal{
+  from{
+    opacity:0;
+    transform:translateY(9px);
+    clip-path:inset(0 100% 0 0)
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+    clip-path:inset(0 0 0 0)
+  }
+}
+
+/* ================= HERO ================= */
+
+.hero-small{
+  font-size:10px;
+  letter-spacing:4px;
+  color:#666
+}
+
+.hero-title{
+  font-size:43px;
+  line-height:.96;
+  font-weight:900;
+  letter-spacing:-2px;
+  margin:12px 0 18px
+}
+
+.hero-desc{
+  font-size:14px;
+  color:#888;
+  line-height:1.7
+}
+
+.join{
+  width:100%;
+  margin-top:24px;
+  padding:15px;
+  border-radius:14px;
+  border:1px solid #555;
+  background:#fff;
+  color:#000;
+  font-weight:800;
+  cursor:pointer;
+  transition:.2s
+}
+
+.join:active{
+  transform:scale(.98)
+}
+
+.section-title{
+  font-size:10px;
+  color:#555;
+  letter-spacing:3px;
+  margin:30px 0 13px
+}
+
+/* ================= CARDS ================= */
+
+.grid,
+.hub-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px
+}
+
+.card,
+.hub-card{
+  border:1px solid #222;
+  border-radius:17px;
+  background:rgba(255,255,255,.035);
+  transition:.25s
+}
+
+.card{
+  padding:19px;
+  min-height:110px
+}
+
+.card-icon,
+.hub-icon{
+  font-size:20px;
+  color:#aaa;
+  margin-bottom:15px
+}
+
+.card h3,
+.hub-card h3{
+  font-size:14px;
+  margin-bottom:7px
+}
+
+.card p,
+.hub-card p{
+  font-size:11px;
+  color:#666;
+  line-height:1.5
+}
+
+/* ================= HUB ================= */
+
+.hub-card{
+  min-height:145px;
+  padding:20px;
+  cursor:pointer
+}
+
+.hub-card:active{
+  transform:scale(.97);
+  border-color:#555
+}
+
+.hub-card small{
+  display:block;
+  color:#555;
+  font-size:8px;
+  letter-spacing:1.5px;
+  margin-top:12px
+}
+
+/* ================= FEEDBACK CAPSULE ================= */
+
+.top-actions{
+  display:flex;
+  align-items:center;
+  gap:8px
+}
+
+.feedback-capsule{
+  height:39px;
+  padding:0 13px;
+  border:1px solid #292929;
+  border-radius:11px;
+  background:#0d0d0d;
+  color:#aaa;
+  font-size:9px;
+  letter-spacing:1px;
+  cursor:pointer;
+  transition:.25s
+}
+
+.feedback-capsule:active{
+  transform:scale(.96)
+}
+
+/* ================= FEEDBACK MODAL ================= */
+
+.feedback-overlay{
+  position:fixed;
+  inset:0;
+  z-index:800;
+  background:rgba(0,0,0,.72);
+  backdrop-filter:blur(8px);
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  padding:18px;
+  opacity:0;
+  visibility:hidden;
+  transition:.35s
+}
+
+.feedback-overlay.open{
+  opacity:1;
+  visibility:visible
+}
+
+.feedback-box{
+  width:min(600px,100%);
+  border:1px solid #292929;
+  border-radius:22px;
+  background:#090909;
+  padding:20px;
+  transform:translateY(30px);
+  transition:.4s cubic-bezier(.22,.8,.25,1)
+}
+
+.feedback-overlay.open .feedback-box{
+  transform:translateY(0)
+}
+
+.feedback-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:17px
+}
+
+.feedback-head strong{
+  font-size:16px;
+  letter-spacing:1px
+}
+
+.feedback-close{
+  width:34px;
+  height:34px;
+  border:1px solid #292929;
+  border-radius:10px;
+  background:#111;
+  color:#fff;
+  font-size:17px;
+  cursor:pointer
+}
+
+.feedback-desc{
+  color:#666;
+  font-size:11px;
+  line-height:1.6;
+  margin-bottom:12px
+}
+
+.problem-list{
+  display:grid;
+  gap:8px
+}
+
+.problem{
+  width:100%;
+  text-align:left;
+  padding:13px;
+  border:1px solid #222;
+  border-radius:12px;
+  background:#0d0d0d;
+  color:#aaa;
+  font-size:11px;
+  cursor:pointer;
+  transition:.2s
+}
+
+.problem:active{
+  transform:scale(.98)
+}
+
+.contact-admin{
+  display:block;
+  width:100%;
+  margin-top:12px;
+  padding:14px;
+  border-radius:13px;
+  background:#fff;
+  color:#000;
+  text-align:center;
+  text-decoration:none;
+  font-size:11px;
+  font-weight:800
+}
+
+/* ================= ABOUT ================= */
+
+.about-box,
+.changelog-box{
+  border:1px solid #222;
+  border-radius:18px;
+  padding:22px;
+  background:rgba(255,255,255,.035)
+}
+
+.about-title{
+  font-size:25px;
+  font-weight:900;
+  margin-bottom:12px
+}
+
+.about-text{
+  color:#888;
+  font-size:13px;
+  line-height:1.8
+}
+
+.about-section{
+  margin-top:10px;
+  border:1px solid #222;
+  border-radius:16px;
+  padding:18px;
+  background:rgba(255,255,255,.025)
+}
+
+.about-section h3{
+  font-size:13px;
+  margin-bottom:11px
+}
+
+.about-section p,
+.about-section li{
+  color:#777;
+  font-size:11px;
+  line-height:1.8
+}
+
+.about-section ul{
+  padding-left:17px
+}
+
+.about-verified{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  color:#aaa;
+  font-size:11px;
+  margin-bottom:8px
+}
+
+.about-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#fff;
+  box-shadow:0 0 9px #fff
+}
+
+/* ================= RULES ================= */
+
+.rules-card{
+  border:1px solid #292929;
+  border-radius:20px;
+  background:rgba(255,255,255,.035);
+  overflow:hidden
+}
+
+.rule-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:17px 18px
+}
+
+.rule-label{
+  font-size:9px;
+  letter-spacing:2px;
+  color:#666
+}
+
+.rule-body{
+  padding:7px 20px 18px;
+  min-height:190px;
+  transition:opacity .25s,transform .25s
+}
+
+.rule-body.changing{
+  opacity:0;
+  transform:translateY(7px)
+}
+
+.rule-num{
+  font-size:10px;
+  color:#555;
+  letter-spacing:2px;
+  margin-bottom:10px
+}
+
+.rule-title{
+  font-size:22px;
+  font-weight:800;
+  margin-bottom:12px
+}
+
+.rule-text{
+  font-size:14px;
+  line-height:1.7;
+  color:#888;
+  min-height:72px
+}
+
+.rule-nav{
+  display:flex;
+  gap:8px;
+  padding:0 20px 18px
+}
+
+.rule-nav button{
+  flex:1;
+  padding:12px;
+  border:1px solid #292929;
+  border-radius:12px;
+  background:#111;
+  color:#fff;
+  cursor:pointer
+}
+
+/* ================= RULE DETAILS ================= */
+
+.rule-info-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:9px;
+  margin-top:12px
+}
+
+.info-card{
+  border:1px solid #222;
+  border-radius:15px;
+  padding:15px 10px;
+  background:rgba(255,255,255,.025);
+  text-align:center
+}
+
+.info-card strong{
+  display:block;
+  font-size:18px;
+  margin-bottom:6px
+}
+
+.info-card span{
+  font-size:7px;
+  color:#666;
+  letter-spacing:1px;
+  line-height:1.5
+}
+
+.sanctions{
+  margin-top:10px;
+  border:1px solid #222;
+  border-radius:15px;
+  padding:18px
+}
+
+.sanctions h3{
+  font-size:13px;
+  margin-bottom:12px
+}
+
+.sanction-list{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px
+}
+
+.sanction-list span{
+  border:1px solid #292929;
+  border-radius:9px;
+  padding:8px 10px;
+  color:#777;
+  font-size:9px
+}
+
+.motto{
+  margin-top:10px;
+  border:1px solid #222;
+  border-radius:15px;
+  padding:15px 10px;
+  text-align:center;
+  color:#aaa;
+  font-size:10px;
+  line-height:1.5;
+  white-space:nowrap;
+  overflow-x:auto
+}
+
+/* ================= CHANGELOG ================= */
+
+.version{
+  border-bottom:1px solid #222;
+  padding:0 0 18px;
+  margin-bottom:18px
+}
+
+.version:last-child{
+  border-bottom:0;
+  margin-bottom:0;
+  padding-bottom:0
+}
+
+.version-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px
+}
+
+.version-head strong{
+  font-size:17px
+}
+
+.version-head span{
+  font-size:8px;
+  color:#555;
+  letter-spacing:1px
+}
+
+.version p{
+  font-size:12px;
+  color:#777;
+  line-height:1.8
+}
+
+.version ul{
+  margin:10px 0 0 17px
+}
+
+.version li{
+  color:#666;
+  font-size:11px;
+  line-height:1.8
+}
+
+/* ================= DRAWER ================= */
+
+.overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.58);
+  opacity:0;
+  visibility:hidden;
+  z-index:500;
+  transition:.35s
+}
+
+.overlay.open{
+  opacity:1;
+  visibility:visible
+}
+
+.drawer{
+  position:absolute;
+  right:0;
+  top:0;
+  width:min(90%,390px);
+  height:100%;
+  background:#080808;
+  border-left:1px solid #292929;
+  padding:23px 18px;
+  overflow-y:auto;
+  transform:translateX(100%);
+  transition:transform .5s cubic-bezier(.22,.8,.25,1)
+}
+
+.overlay.open .drawer{
+  transform:translateX(0)
+}
+
+.drawer-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:25px
+}
+
+.drawer-title{
+  font-size:17px;
+  font-weight:900;
+  letter-spacing:3px
+}
+
+.close{
+  width:38px;
+  height:38px;
+  border:1px solid #292929;
+  background:#111;
+  color:#fff;
+  border-radius:11px;
+  font-size:18px;
+  cursor:pointer
+}
+
+.accordion{
+  border:1px solid #222;
+  border-radius:14px;
+  background:#0c0c0c;
+  margin-bottom:9px;
+  overflow:hidden
+}
+
+.acc-head{
+  padding:16px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:13px;
+  cursor:pointer
+}
+
+.acc-arrow{
+  color:#666;
+  transition:.35s
+}
+
+.accordion.open .acc-arrow{
+  transform:rotate(180deg)
+}
+
+.acc-content{
+  max-height:0;
+  overflow:hidden;
+  opacity:0;
+  transition:max-height .5s ease,opacity .35s,padding .4s
+}
+
+.accordion.open .acc-content{
+  max-height:600px;
+  opacity:1;
+  padding:0 16px 16px
+}
+
+.acc-content p,
+.acc-content li{
+  color:#777;
+  font-size:12px;
+  line-height:1.7
+}
+
+.acc-content ul{
+  padding-left:17px
+}
+
+.lang{
+  display:flex;
+  gap:7px
+}
+
+.lang button{
+  flex:1;
+  padding:11px;
+  border:1px solid #292929;
+  border-radius:10px;
+  background:#111;
+  color:#888;
+  cursor:pointer
+}
+
+.lang button.active{
+  background:#fff;
+  color:#000
+}
+
+.creator-link{
+  display:block;
+  width:100%;
+  padding:13px;
+  border:1px solid #292929;
+  border-radius:12px;
+  background:#111;
+  color:#fff;
+  text-align:center;
+  text-decoration:none;
+  font-size:11px;
+  margin-top:12px
+}
+
+/* ================= LANGUAGE TRANSITION ================= */
+
+.lang-fade{
+  opacity:0!important;
+  filter:blur(8px)!important;
+  transform:translateY(4px)!important;
+  transition:.28s!important
+}
+
+/* ================= WATERMARK ================= */
+
+.watermark{
+  position:fixed;
+  left:50%;
+  bottom:84px;
+  transform:translateX(-50%);
+  z-index:250;
+  color:#3d3d3d;
+  font-size:8px;
+  letter-spacing:1.5px;
+  pointer-events:none;
+  white-space:nowrap
+}
+
+/* ================= DOCK ================= */
+
+.dock{
+  position:fixed;
+  left:50%;
+  bottom:14px;
+  transform:translateX(-50%);
+  width:min(94%,520px);
+  height:64px;
+  padding:6px;
+  border:1px solid #292929;
+  border-radius:20px;
+  background:rgba(8,8,8,.86);
+  backdrop-filter:blur(18px);
+  display:flex;
+  z-index:300
+}
+
+.dock button{
+  position:relative;
+  z-index:2;
+  flex:1;
+  border:0;
+  background:transparent;
+  color:#666;
+  border-radius:15px;
+  font-size:8px;
+  cursor:pointer;
+  transition:color .3s
+}
+
+.dock button span{
+  display:block;
+  font-size:17px;
+  margin-bottom:3px
+}
+
+.dock button.active{
+  color:#fff
+}
+
+.indicator{
+  position:absolute;
+  left:6px;
+  top:6px;
+  bottom:6px;
+  width:calc((100% - 12px)/5);
+  border-radius:15px;
+  background:#191919;
+  transition:.4s cubic-bezier(.22,.8,.25,1)
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:380px){
+
+  .hero-title{
+    font-size:35px
+  }
+
+  .grid,
+  .hub-grid{
+    grid-template-columns:1fr
+  }
+
+  .dock button{
+    font-size:7px
+  }
+
+  .dock button span{
+    font-size:15px
+  }
+
+  .feedback-capsule{
+    padding:0 9px;
+    font-size:8px
+  }
+
+  .motto{
+    font-size:9px
+  }
+
+}
+
+@media(min-width:600px){
+
+  .rule-info-grid{
+    grid-template-columns:repeat(3,1fr)
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= LOADER ================= -->
+
+<div id="loader">
+
+  <div class="login-box">
+
+    <div class="logo">HGC</div>
+
+    <div class="orbit"></div>
+
+    <div class="login-text">LOGIN TO HGC</div>
+
+    <div class="progress">
+      <div class="progress-bar" id="bar"></div>
+    </div>
+
+    <div class="status" id="status">
+      INITIALIZING
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ================= APP ================= -->
+
+<div id="app">
+
+<main class="content" id="content">
+
+
+<!-- ================= HOME ================= -->
+
+<section class="page pageview active" id="home">
+
+  <div class="top">
+
+    <div class="brand type-item">HGC</div>
+
+    <div class="top-actions">
+
+      <button class="feedback-capsule"
+              onclick="openFeedback()">
+        FEEDBACK
+      </button>
+
+      <button class="menu"
+              onclick="openDrawer()">
+        ☰
+      </button>
+
+    </div>
+
+  </div>
+
+  <div class="hero">
+
+    <div class="hero-small type-item"
+         data-i18n="welcome">
+      WELCOME TO
+    </div>
+
+    <div class="hero-title type-item"
+         data-i18n="homeTitle">
+      HUMAN<br>
+      GREAT<br>
+      COMMUNITY
+    </div>
+
+    <p class="hero-desc type-item"
+       data-i18n="homeDesc">
+      Komunitas ini merupakan wadah untuk
+      belajar, berdiskusi, dan berbagi wawasan
+      di berbagai bidang ilmu, seperti sejarah,
+      astronomi, psikologi, filsafat, sains,
+      teknologi, budaya, dan topik edukatif lainnya.
+    </p>
+
+    <button class="join type-item"
+            onclick="joinHGC()"
+            data-i18n="join">
+      MASUK HGC
+    </button>
+
+  </div>
+
+  <div class="section-title type-item"
+       data-i18n="homeExplore">
+    HGC TERBAGI MENJADI
+  </div>
+
+  <div class="grid">
+
+    <div class="card type-item">
+      <div class="card-icon">◉</div>
+      <h3>HGC Utama</h3>
+      <p>Pusat utama komunitas dan pembahasan HGC.</p>
+    </div>
+
+    <div class="card type-item">
+      <div class="card-icon">○</div>
+      <h3>HGC Off Topic</h3>
+      <p>Ruang untuk pembahasan santai di luar topik utama.</p>
+    </div>
+
+    <div class="card type-item">
+      <div class="card-icon">◌</div>
+      <h3>HGC Astronomi</h3>
+      <p>Membahas alam semesta dan fenomena langit.</p>
+    </div>
+
+    <div class="card type-item">
+      <div class="card-icon">◇</div>
+      <h3>HGC History</h3>
+      <p>Membahas sejarah, peristiwa, tokoh, dan peradaban.</p>
+    </div>
+
+    <div class="card type-item">
+      <div class="card-icon">✦</div>
+      <h3>HGC Event</h3>
+      <p>Informasi kegiatan dan event yang diselenggarakan HGC.</p>
+    </div>
+
+    <div class="card type-item">
+      <div class="card-icon">▣</div>
+      <h3>HGC Visual Gallery</h3>
+      <p>Ruang berbagi visual, karya, dan materi menarik.</p>
+    </div>
+
+    <div class="card type-item">
+      <div class="card-icon">◎</div>
+      <h3>HGC</h3>
+      <p>Berbagai pembahasan edukatif lainnya dalam komunitas.</p>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= HUB ================= -->
+
+<section class="page pageview" id="hub">
+
+  <div class="top">
+
+    <div class="brand type-item">HGC HUB</div>
+
+    <div class="top-actions">
+
+      <button class="feedback-capsule"
+              onclick="openFeedback()">
+        FEEDBACK
+      </button>
+
+      <button class="menu"
+              onclick="openDrawer()">
+        ☰
+      </button>
+
+    </div>
+
+  </div>
+
+  <div class="hero">
+
+    <div class="hero-small type-item">HGC PORTAL</div>
+
+    <div class="hero-title type-item">
+      HGC<br>HUB
+    </div>
+
+    <p class="hero-desc type-item"
+       data-i18n="hubDesc">
+      Pusat informasi dan layanan HGC.
+      Temukan event, pembaruan portal,
+      komunitas, dan akses untuk menghubungi
+      admin HGC.
+    </p>
+
+  </div>
+
+  <div class="section-title type-item">
+    HGC HUB
+  </div>
+
+  <div class="hub-grid">
+
+    <div class="hub-card type-item"
+         onclick="hubCommunity()">
+
+      <div class="hub-icon">◎</div>
+
+      <h3 data-i18n="community">Komunitas</h3>
+
+      <p data-i18n="communityDesc">
+        Masuk ke komunitas HGC dan
+        bergabung dalam diskusi.
+      </p>
+
+      <small>WHATSAPP COMMUNITY</small>
+
+    </div>
+
+    <div class="hub-card type-item"
+         onclick="hubEvent()">
+
+      <div class="hub-icon">◇</div>
+
+      <h3 data-i18n="event">Event</h3>
+
+      <p data-i18n="eventDesc">
+        Lihat informasi event dan
+        kegiatan HGC.
+      </p>
+
+      <small>HGC EVENT</small>
+
+    </div>
+
+    <div class="hub-card type-item"
+         onclick="showPageById('changelog')">
+
+      <div class="hub-icon">↑</div>
+
+      <h3 data-i18n="update">Update Portal</h3>
+
+      <p data-i18n="updateDesc">
+        Lihat perkembangan dan perubahan
+        terbaru portal HGC.
+      </p>
+
+      <small>CHANGELOG</small>
+
+    </div>
+
+    <div class="hub-card type-item"
+         onclick="hubAdmin()">
+
+      <div class="hub-icon">✦</div>
+
+      <h3 data-i18n="admin">Hubungi Admin</h3>
+
+      <p data-i18n="adminDesc">
+        Hubungi admin HGC melalui
+        WhatsApp.
+      </p>
+
+      <small>CONTACT ADMIN</small>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= ABOUT ================= -->
+
+<section class="page pageview" id="about">
+
+  <div class="top">
+
+    <div class="brand type-item">ABOUT</div>
+
+    <div class="top-actions">
+
+      <button class="feedback-capsule"
+              onclick="openFeedback()">
+        FEEDBACK
+      </button>
+
+      <button class="menu"
+              onclick="openDrawer()">
+        ☰
+      </button>
+
+    </div>
+
+  </div>
+
+  <div class="about-box">
+
+    <div class="about-title type-item">
+      HUMAN GREAT COMMUNITY
+    </div>
+
+    <p class="about-text type-item"
+       data-i18n="aboutText">
+      HGC merupakan wadah untuk belajar,
+      berdiskusi, dan berbagi wawasan
+      di berbagai bidang ilmu.
+    </p>
+
+  </div>
+
+
+  <div class="about-section type-item">
+
+    <h3>✓ VERIFIKASI HGC</h3>
+
+    <div class="about-verified">
+      <span class="about-dot"></span>
+      HGC VERIFIED
+    </div>
+
+    <p>
+      Portal ini merupakan bagian dari Human Great
+      Community dan digunakan sebagai pusat informasi
+      serta layanan komunitas HGC.
+    </p>
+
+  </div>
+
+
+  <div class="about-section type-item">
+
+    <h3>PERATURAN APLIKASI</h3>
+
+    <ul>
+      <li>Dilarang keras membajak atau memodifikasi APK tanpa izin.</li>
+      <li>Dilarang menyalahgunakan nama dan identitas HGC.</li>
+      <li>Dilarang menyebarkan APK yang telah dimodifikasi secara ilegal.</li>
+      <li>Jangan menggunakan aplikasi untuk aktivitas ilegal.</li>
+      <li>Hormati pembuat, komunitas, dan seluruh anggota HGC.</li>
+    </ul>
+
+  </div>
+
+
+  <div class="about-section type-item">
+
+    <h3>PEMBUAT APK</h3>
+
+    <p>
+      APK dan portal HGC HUB dibuat dan dikembangkan oleh
+      Alvin Sebastiyan.
+    </p>
+
+  </div>
+
+</section>
+
+
+<!-- ================= RULES ================= -->
+
+<section class="page pageview" id="rules">
+
+  <div class="top">
+
+    <div class="brand type-item">RULES</div>
+
+    <div class="top-actions">
+
+      <button class="feedback-capsule"
+              onclick="openFeedback()">
+        FEEDBACK
+      </button>
+
+      <button class="menu"
+              onclick="openDrawer()">
+        ☰
+      </button>
+
+    </div>
+
+  </div>
+
+  <div class="rules-card">
+
+    <div class="rule-head">
+
+      <div class="rule-label"
+           data-i18n="communityRules">
+        PERATURAN KOMUNITAS
+      </div>
+
+    </div>
+
+    <div class="rule-body" id="ruleBody">
+
+      <div class="rule-num" id="ruleNum">
+        RULE 01
+      </div>
+
+      <div class="rule-title" id="ruleTitle">
+        Bersikap sopan
+      </div>
+
+      <div class="rule-text" id="ruleText"></div>
+
+    </div>
+
+    <div class="rule-nav">
+      <button onclick="prevRule()">←</button>
+      <button onclick="nextRule()">→</button>
+    </div>
+
+  </div>
+
+
+  <div class="section-title type-item"
+       data-i18n="communityStats">
+    COMMUNITY
+  </div>
+
+  <div class="rule-info-grid">
+
+    <div class="info-card type-item">
+      <strong>1K+</strong>
+      <span>MEMBER HGC</span>
+    </div>
+
+    <div class="info-card type-item">
+      <strong>99,9%</strong>
+      <span>PEMBAHASAN ILMU</span>
+    </div>
+
+    <div class="info-card type-item">
+      <strong>24 JAM</strong>
+      <span>OFF TOPIC</span>
+    </div>
+
+  </div>
+
+
+  <div class="sanctions type-item">
+
+    <h3 data-i18n="sanctions">
+      Sanksi
+    </h3>
+
+    <div class="sanction-list">
+      <span>Teguran</span>
+      <span>Warning</span>
+      <span>Mute</span>
+      <span>Kick</span>
+      <span>Blacklist Permanen</span>
+    </div>
+
+  </div>
+
+
+  <div class="motto type-item">
+
+    Think Critically
+    • Learn Continuously
+    • Respect Everyone
+    • Grow Together.
+
+  </div>
+
+</section>
+
+
+<!-- ================= CHANGELOG ================= -->
+
+<section class="page pageview" id="changelog">
+
+  <div class="top">
+
+    <div class="brand type-item">CHANGELOG</div>
+
+    <div class="top-actions">
+
+      <button class="feedback-capsule"
+              onclick="openFeedback()">
+        FEEDBACK
+      </button>
+
+      <button class="menu"
+              onclick="openDrawer()">
+        ☰
+      </button>
+
+    </div>
+
+  </div>
+
+  <div class="changelog-box">
+
+    <div class="version type-item">
+
+      <div class="version-head">
+        <strong>v3.0</strong>
+        <span>2026</span>
+      </div>
+
+      <p>
+        Pembaruan besar HGC HUB dengan penyempurnaan
+        struktur informasi, navigasi, dan sistem komunitas.
+      </p>
+
+      <ul>
+        <li>HGC Community Division</li>
+        <li>Feedback Capsule</li>
+        <li>About & HGC Verification</li>
+        <li>Application Rules</li>
+        <li>Rules interface improvement</li>
+        <li>Updated community statistics</li>
+        <li>Improved navigation experience</li>
+        <li>UI and animation refinements</li>
+        <li>Bug fixes and performance improvements</li>
+      </ul>
+
+    </div>
+
+
+    <div class="version type-item">
+
+      <div class="version-head">
+        <strong>v2.0</strong>
+        <span>2026</span>
+      </div>
+
+      <p data-i18n="v20desc">
+        HGC memasuki tahap pengembangan baru
+        dengan struktur portal yang lebih lengkap.
+      </p>
+
+      <ul>
+        <li>Improved HGC Hub</li>
+        <li>Educational fields</li>
+        <li>Rules separation</li>
+        <li>Language transition</li>
+        <li>Changelog system</li>
+      </ul>
+
+    </div>
+
+
+    <div class="version type-item">
+
+      <div class="version-head">
+        <strong>v1.0</strong>
+        <span>2026</span>
+      </div>
+
+      <p>
+        Awal pengembangan portal Human Great
+        Community.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= DOCK ================= -->
+
+<nav class="dock">
+
+  <div class="indicator" id="indicator"></div>
+
+  <button class="active"
+          onclick="showPage('home',this)">
+    <span>⌂</span>
+    <label data-i18n="navHome">Beranda</label>
+  </button>
+
+  <button onclick="showPage('hub',this)">
+    <span>◉</span>
+    <label>HGC HUB</label>
+  </button>
+
+  <button onclick="showPage('rules',this)">
+    <span>☷</span>
+    <label>Rules</label>
+  </button>
+
+  <button onclick="showPage('about',this)">
+    <span>◎</span>
+    <label>About</label>
+  </button>
+
+  <button onclick="showPage('changelog',this)">
+    <span>↑</span>
+    <label>Updates</label>
+  </button>
+
+</nav>
+
+</main>
+</div>
+
+
+<!-- ================= WATERMARK ================= -->
+
+<div class="watermark">
+  © Alvin Sebastiyan
+</div>
+
+
+<!-- ================= FEEDBACK ================= -->
+
+<div class="feedback-overlay" id="feedbackOverlay">
+
+  <div class="feedback-box">
+
+    <div class="feedback-head">
+
+      <strong>FEEDBACK</strong>
+
+      <button class="feedback-close"
+              onclick="closeFeedback()">
+        ×
+      </button>
+
+    </div>
+
+    <p class="feedback-desc">
+      Ada masalah apa dengan HGC HUB?
+      Pilih masalah yang ingin dilaporkan.
+    </p>
+
+    <div class="problem-list">
+
+      <button class="problem"
+              onclick="selectProblem('Bug atau error')">
+        • Bug atau error
+      </button>
+
+      <button class="problem"
+              onclick="selectProblem('Tampilan bermasalah')">
+        • Tampilan bermasalah
+      </button>
+
+      <button class="problem"
+              onclick="selectProblem('Tombol atau fitur tidak bekerja')">
+        • Tombol atau fitur tidak bekerja
+      </button>
+
+      <button class="problem"
+              onclick="selectProblem('Informasi kurang tepat')">
+        • Informasi kurang tepat
+      </button>
+
+      <button class="problem"
+              onclick="selectProblem('Saran fitur')">
+        • Saran fitur
+      </button>
+
+      <button class="problem"
+              onclick="selectProblem('Masalah lainnya')">
+        • Masalah lainnya
+      </button>
+
+    </div>
+
+    <a class="contact-admin"
+       id="feedbackContact"
+       href="https://wa.me/6285797437665"
+       target="_blank">
+      HUBUNGI ADMIN APK
+    </a>
+
+  </div>
+
+</div>
+
+
+<!-- ================= DRAWER ================= -->
+
+<div class="overlay" id="overlay">
+
+<aside class="drawer">
+
+  <div class="drawer-top">
+
+    <div class="drawer-title">
+      HGC HUB
+    </div>
+
+    <button class="close"
+            onclick="closeDrawer()">
+      ×
+    </button>
+
+  </div>
+
+
+  <div class="accordion">
+
+    <div class="acc-head"
+         onclick="accordion(this)">
+      <span>Bahasa</span>
+      <span class="acc-arrow">▼</span>
+    </div>
+
+    <div class="acc-content">
+
+      <div class="lang">
+
+        <button id="idBtn"
+                class="active"
+                onclick="setLang('id')">
+          Indonesia
+        </button>
+
+        <button id="enBtn"
+                onclick="setLang('en')">
+          English
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="accordion">
+
+    <div class="acc-head"
+         onclick="accordion(this)">
+      <span>Creator</span>
+      <span class="acc-arrow">▼</span>
+    </div>
+
+    <div class="acc-content">
+
+      <p>
+        Follow Creator HGC untuk mendapatkan
+        informasi dan konten terbaru.
+      </p>
+
+      <a class="creator-link"
+         href="https://www.tiktok.com/@vin_astronomi"
+         target="_blank">
+        FOLLOW @vin_astronomi
+      </a>
+
+    </div>
+
+  </div>
+
+
+  <div class="accordion">
+
+    <div class="acc-head"
+         onclick="accordion(this)">
+      <span>Tentang HGC</span>
+      <span class="acc-arrow">▼</span>
+    </div>
+
+    <div class="acc-content">
+
+      <p>
+        Human Great Community adalah komunitas
+        yang berfokus pada pembelajaran,
+        diskusi, dan berbagi wawasan.
+      </p>
+
+      <br>
+
+      <p>
+        © Alvin Sebastiyan
+      </p>
+
+    </div>
+
+  </div>
+
+</aside>
+</div>
+
+
+<script>
+document.addEventListener("DOMContentLoaded",function(){
+
+const HGC_LINK =
+"https://chat.whatsapp.com/DxXnPrw6adWJ460nFvU2LV";
+
+const ADMIN_LINK =
+"https://wa.me/6285797437665";
+
+
+/* ================= JOIN ================= */
+
+window.joinHGC=function(){
+  window.open(HGC_LINK,"_blank");
+};
+
+
+/* ================= LOADING ================= */
+
+let progress=0;
+
+const loader=document.getElementById("loader");
+const app=document.getElementById("app");
+const bar=document.getElementById("bar");
+const statusText=document.getElementById("status");
+
+const states=[
+  "INITIALIZING",
+  "CONNECTING",
+  "LOADING HGC",
+  "VERIFYING",
+  "OPENING HGC",
+  "READY"
+];
+
+const loading=setInterval(function(){
+
+  progress+=2;
+
+  bar.style.width=progress+"%";
+
+  statusText.textContent=
+    states[Math.min(Math.floor(progress/20),5)];
+
+  if(progress>=100){
+
+    clearInterval(loading);
+
+    setTimeout(function(){
+
+      loader.classList.add("hide");
+
+      setTimeout(function(){
+
+        app.classList.add("ready");
+
+        revealPage(
+          document.getElementById("home")
+        );
+
+      },500);
+
+    },500);
+
+  }
+
+},65);
+
+
+/* ================= PAGE ================= */
+
+let currentPage="home";
+
+window.showPage=function(id,button){
+
+  document.querySelectorAll(".pageview")
+    .forEach(function(page){
+      page.classList.remove("active");
+    });
+
+  const page=document.getElementById(id);
+
+  if(!page)return;
+
+  page.classList.add("active");
+
+  document.querySelectorAll(".dock button")
+    .forEach(function(btn){
+      btn.classList.remove("active");
+    });
+
+  button.classList.add("active");
+
+  const buttons=Array.from(
+    document.querySelectorAll(".dock button")
+  );
+
+  const index=buttons.indexOf(button);
+
+  document.getElementById("indicator")
+    .style.transform=
+    "translateX("+(index*100)+"%)";
+
+  document.getElementById("content")
+    .scrollTo(0,0);
+
+  currentPage=id;
+
+  setTimeout(function(){
+    revealPage(page);
+  },80);
+
+};
+
+
+window.showPageById=function(id){
+
+  const buttons=
+    document.querySelectorAll(".dock button");
+
+  const map={
+    home:0,
+    hub:1,
+    rules:2,
+    about:3,
+    changelog:4
+  };
+
+  if(map[id]===undefined)return;
+
+  showPage(id,buttons[map[id]]);
+
+};
+
+
+/* ================= REVEAL ================= */
+
+window.revealPage=function(page){
+
+  const items=
+    page.querySelectorAll(".type-item");
+
+  items.forEach(function(item){
+    item.classList.remove("show");
+  });
+
+  items.forEach(function(item,index){
+
+    setTimeout(function(){
+      item.classList.add("show");
+    },index*80);
+
+  });
+
+};
+
+
+/* ================= DRAWER ================= */
+
+window.openDrawer=function(){
+
+  document
+    .getElementById("overlay")
+    .classList.add("open");
+
+};
+
+window.closeDrawer=function(){
+
+  document
+    .getElementById("overlay")
+    .classList.remove("open");
+
+};
+
+document
+  .getElementById("overlay")
+  .addEventListener("click",function(e){
+
+    if(e.target.id==="overlay"){
+      closeDrawer();
+    }
+
+  });
+
+
+/* ================= ACCORDION ================= */
+
+window.accordion=function(head){
+
+  const box=head.parentElement;
+
+  document
+    .querySelectorAll(".accordion")
+    .forEach(function(item){
+
+      if(item!==box){
+        item.classList.remove("open");
+      }
+
+    });
+
+  box.classList.toggle("open");
+
+};
+
+
+/* ================= FEEDBACK ================= */
+
+window.openFeedback=function(){
+
+  document
+    .getElementById("feedbackOverlay")
+    .classList.add("open");
+
+};
+
+window.closeFeedback=function(){
+
+  document
+    .getElementById("feedbackOverlay")
+    .classList.remove("open");
+
+};
+
+document
+  .getElementById("feedbackOverlay")
+  .addEventListener("click",function(e){
+
+    if(e.target.id==="feedbackOverlay"){
+      closeFeedback();
+    }
+
+  });
+
+
+window.selectProblem=function(problem){
+
+  const message=
+    "Halo Admin HGC HUB, saya ingin melaporkan masalah: "+
+    problem;
+
+  const url=
+    ADMIN_LINK+
+    "?text="+
+    encodeURIComponent(message);
+
+  document
+    .getElementById("feedbackContact")
+    .href=url;
+
+};
+
+
+/* ================= RULES ================= */
+
+const rules=[
+
+[
+"Bersikap sopan",
+"Bersikap sopan, saling menghormati, dan menjaga etika dalam setiap diskusi."
+],
+
+[
+"Diskusi yang sehat",
+"Bangun diskusi yang sehat, terbuka, dan saling menghargai perbedaan pendapat."
+],
+
+[
+"Dilarang spam",
+"Dilarang mengirim spam, promosi, broadcast, atau membagikan link grup tanpa izin admin."
+],
+
+[
+"Konten terlarang",
+"Dilarang mengirim konten pornografi, perjudian, ujaran kebencian, SARA, atau konten ilegal lainnya."
+],
+
+[
+"Jangan melakukan bullying",
+"Dilarang menghina, mengejek, melakukan bullying, maupun menyerang pribadi anggota lain."
+],
+
+[
+"Gunakan sumber kredibel",
+"Biasakan menggunakan sumber yang kredibel saat membagikan informasi atau fakta."
+],
+
+[
+"Gunakan grup sesuai topik",
+"Gunakan grup sesuai dengan topiknya agar diskusi tetap rapi dan nyaman."
+],
+
+[
+"Hormati privasi",
+"Hormati privasi anggota, dilarang menyebarkan data pribadi tanpa izin."
+],
+
+[
+"Hormati keputusan admin",
+"Hormati keputusan Founder, Co-Founder, dan Admin demi menjaga ketertiban komunitas."
+],
+
+[
+"Saling membantu",
+"Mari saling membantu, berbagi ilmu, dan menciptakan lingkungan belajar yang positif."
+]
+
+];
+
+let ruleIndex=0;
+let typingTimer=null;
+
+window.renderRule=function(){
+
+  const body=document.getElementById("ruleBody");
+  const number=document.getElementById("ruleNum");
+  const title=document.getElementById("ruleTitle");
+  const text=document.getElementById("ruleText");
+
+  body.classList.add("changing");
+
+  if(typingTimer!==null){
+    clearInterval(typingTimer);
+  }
+
+  setTimeout(function(){
+
+    number.textContent=
+      "RULE "+
+      String(ruleIndex+1).padStart(2,"0");
+
+    title.textContent=
+      rules[ruleIndex][0];
+
+    text.textContent="";
+
+    const sentence=
+      rules[ruleIndex][1];
+
+    let i=0;
+
+    body.classList.remove("changing");
+
+    typingTimer=setInterval(function(){
+
+      text.textContent=
+        sentence.slice(0,i);
+
+      i++;
+
+      if(i>sentence.length){
+
+        clearInterval(typingTimer);
+        typingTimer=null;
+
+      }
+
+    },13);
+
+  },220);
+
+};
+
+window.nextRule=function(){
+
+  ruleIndex=
+    (ruleIndex+1)%rules.length;
+
+  renderRule();
+
+};
+
+window.prevRule=function(){
+
+  ruleIndex=
+    (ruleIndex-1+rules.length)%rules.length;
+
+  renderRule();
+
+};
+
+
+/* ================= HUB ================= */
+
+window.hubCommunity=function(){
+  window.open(HGC_LINK,"_blank");
+};
+
+window.hubEvent=function(){
+
+  alert(
+    "EVENT HGC\n\n"+
+    "Informasi event akan ditampilkan "+
+    "melalui HGC Hub pada pembaruan berikutnya."
+  );
+
+};
+
+window.hubAdmin=function(){
+
+  window.open(
+    ADMIN_LINK,
+    "_blank"
+  );
+
+};
+
+
+/* ================= LANGUAGE ================= */
+
+const translations={
+
+id:{
+
+welcome:"WELCOME TO",
+
+homeTitle:"HUMAN<br>GREAT<br>COMMUNITY",
+
+homeDesc:
+"Komunitas ini merupakan wadah untuk belajar, berdiskusi, dan berbagi wawasan di berbagai bidang ilmu, seperti sejarah, astronomi, psikologi, filsafat, sains, teknologi, budaya, dan topik edukatif lainnya.",
+
+join:"MASUK HGC",
+
+homeExplore:"HGC TERBAGI MENJADI",
+
+hubDesc:
+"Pusat informasi dan layanan HGC. Temukan event, pembaruan portal, komunitas, dan akses untuk menghubungi admin HGC.",
+
+community:"Komunitas",
+communityDesc:
+"Masuk ke komunitas HGC dan bergabung dalam diskusi.",
+
+event:"Event",
+eventDesc:
+"Lihat informasi event dan kegiatan HGC.",
+
+update:"Update Portal",
+updateDesc:
+"Lihat perkembangan dan perubahan terbaru portal HGC.",
+
+admin:"Hubungi Admin",
+adminDesc:
+"Hubungi admin HGC melalui WhatsApp.",
+
+aboutText:
+"HGC merupakan wadah untuk belajar, berdiskusi, dan berbagi wawasan di berbagai bidang ilmu.",
+
+communityRules:"PERATURAN KOMUNITAS",
+communityStats:"COMMUNITY",
+sanctions:"Sanksi",
+
+v20desc:
+"HGC memasuki tahap pengembangan baru dengan struktur portal yang lebih lengkap.",
+
+navHome:"Beranda"
+
+},
+
+en:{
+
+welcome:"WELCOME TO",
+
+homeTitle:"HUMAN<br>GREAT<br>COMMUNITY",
+
+homeDesc:
+"A community space for learning, discussion, and sharing knowledge across history, astronomy, psychology, philosophy, science, technology, culture, and other educational topics.",
+
+join:"JOIN HGC",
+
+homeExplore:"HGC IS DIVIDED INTO",
+
+hubDesc:
+"The central place for HGC information and services. Find events, portal updates, the community, and admin contact.",
+
+community:"Community",
+communityDesc:
+"Enter the HGC community and join the discussions.",
+
+event:"Events",
+eventDesc:
+"View HGC events and activities.",
+
+update:"Portal Update",
+updateDesc:
+"See the latest development and changes to the HGC portal.",
+
+admin:"Contact Admin",
+adminDesc:
+"Contact HGC admin through WhatsApp.",
+
+aboutText:
+"HGC is a space for learning, discussion, and sharing knowledge across different fields.",
+
+communityRules:"COMMUNITY RULES",
+communityStats:"COMMUNITY",
+sanctions:"Sanctions",
+
+v20desc:
+"HGC enters a new development stage with a more complete portal structure.",
+
+navHome:"Home"
+
+}
+
+};
+
+
+let currentLang="id";
+
+window.setLang=function(lang){
+
+  if(lang===currentLang)return;
+
+  const all=
+    document.querySelectorAll("[data-i18n]");
+
+  all.forEach(function(el){
+    el.classList.add("lang-fade");
+  });
+
+  setTimeout(function(){
+
+    const data=translations[lang];
+
+    all.forEach(function(el){
+
+      const key=el.dataset.i18n;
+
+      if(data[key]!==undefined){
+        el.innerHTML=data[key];
+      }
+
+    });
+
+    currentLang=lang;
+
+    document
+      .getElementById("idBtn")
+      .classList.toggle("active",lang==="id");
+
+    document
+      .getElementById("enBtn")
+      .classList.toggle("active",lang==="en");
+
+    all.forEach(function(el){
+      el.classList.remove("lang-fade");
+    });
+
+    typeLanguage();
+
+  },330);
+
+};
+
+
+function typeLanguage(){
+
+  const elements=
+    document.querySelectorAll("[data-i18n]");
+
+  elements.forEach(function(el){
+
+    const html=el.innerHTML;
+
+    if(html.includes("<br>")){
+      return;
+    }
+
+    const original=el.textContent;
+
+    if(original.length<3)return;
+
+    el.textContent="";
+
+    let i=0;
+
+    const timer=setInterval(function(){
+
+      el.textContent=
+        original.slice(0,i);
+
+      i++;
+
+      if(i>original.length){
+        clearInterval(timer);
+      }
+
+    },10);
+
+  });
+
+}
+
+
+/* ================= START ================= */
+
+renderRule();
+
+});
+</script>
+
+</body>
+</html>
